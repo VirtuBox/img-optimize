@@ -1,4 +1,3 @@
-
 #!/bin/bash
 echo ""
 echo "Welcome to wp-optimize script"
