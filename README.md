@@ -1,12 +1,19 @@
-# wp-optimize
-Optimize easily your images on your linux server with this small script.
+# WP-optimize
+
+### What does the script do ?
+
+- install jpegoptim and optipng 
+- optimize all your images in /var/www
+
 To run the script :
 
 ```
 #For debian/Ubuntu
-wget -qO optimize.sh https://git.virtubox.net/virtubox/wp-optimize/raw/master/deb-wp-optimize.sh && bash optimize.sh
+bash <(wget --no-check-certificate -O - https://raw.githubusercontent.com/VirtuBox/wp-optimize/master/deb-optimize.sh)
+wget -qO optimize.sh 
 
 #For Centos/RedHat
 cd /var/www
-wget -qO optimize.sh https://git.virtubox.net/virtubox/wp-optimize/raw/master/centos-wp-optimize.sh && bash optimize.sh
+bash <(wget --no-check-certificate -O - https://raw.githubusercontent.com/VirtuBox/wp-optimize/master/centos-optimize.sh)
+
 ```
