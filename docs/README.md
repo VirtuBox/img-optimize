@@ -52,3 +52,6 @@ sudo -u www-data ./optimize.sh /path/to/your/images
 ### Warning
 
 Conversion process can take a while, you can use `tmux` to launch the script and be able to close your ssh connection without interrupting conversion. Then just use `tmux attach` to login back in your tmux session.
+
+### Credits
+WebP conversion script is inspired by this [DigitalOcean Community Tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-and-serve-webp-images-to-speed-up-your-website)
