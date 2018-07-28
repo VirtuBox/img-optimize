@@ -46,8 +46,7 @@ find $imagepath -iname '*.png' -print0 | xargs -0 optipng -o7 -quiet -preserve
 # convert png to webp
 webpconvert() {
 find $imagepath -iname "*.png" -print0 | xargs -0 -I {}  \
-bash -c '
-webp_version="$0".webp
+bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -lossless {} -o {}.webp; }
 fi' 
@@ -57,9 +56,7 @@ fi'
 
 # convert jpg to webp
 find $imagepath -iname "*.jp*" -print0 | xargs -0 -I {} \
-bash -c '
-webp_version="$0".webp
-
+bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -lossless {} -o {}.webp; }
 fi'
