@@ -13,17 +13,17 @@ echo ""
 
 echo ""
 echo "Do you want to optimize jpg images ? (y/n)"
-while [[ $ufw != "y" && $ufw != "n" ]]; do
+while [[ $jpg != "y" && $jpg != "n" ]]; do
     read -p "Select an option [y/n]: " jpg
 done
 echo ""
 echo "Do you want to optimize png images ? (y/n)"
-while [[ $ufw != "y" && $ufw != "n" ]]; do
+while [[ $png != "y" && $png != "n" ]]; do
     read -p "Select an option [y/n]: " png
 done
 echo ""
 echo "Do you want to convert jpg & png images to WebP ? (y/n)"
-while [[ $ufw != "y" && $ufw != "n" ]]; do
+while [[ $webp != "y" && $webp != "n" ]]; do
     read -p "Select an option [y/n]: " webp
 done
 
