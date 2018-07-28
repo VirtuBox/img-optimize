@@ -6,6 +6,7 @@ CGREEN="${CSI}1;32m"
 # Welcome
 ##################################
 
+imagepath="$1"
 
 echo ""
 echo "Welcome to optimize.sh image optimization script."
@@ -29,21 +30,21 @@ done
 
 # optimize jpg
 jpgoptimize() {
-find "$1" -iname "*.jp*" -print0 | xargs -0 jpegoptim --quiet --strip-all -m76 
+find  $imagepath -iname "*.jp*" -print0 | xargs -0 jpegoptim --quiet --strip-all -m76 
 
         echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # optimize png
 pngoptimize() {
-find "$1" -iname '*.png' -print0 | xargs -0 optipng -o7 -quiet -preserve 
+find $imagepath -iname '*.png' -print0 | xargs -0 optipng -o7 -quiet -preserve 
 
         echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # convert png to webp
 webpconvert() {
-find "$1" -iname "*.png" -print0 | xargs -0 -I {}  \
+find $imagepath -iname "*.png" -print0 | xargs -0 -I {}  \
 bash -c '
 webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
@@ -54,7 +55,7 @@ fi' >> /tmp/image-optimization.log
         echo -ne "\\n"
 
 # convert jpg to webp
-find "$1" -iname "*.jp*" -print0 | xargs -0 -I {} \
+find $imagepath -iname "*.jp*" -print0 | xargs -0 -I {} \
 bash -c '
 webp_version="$0".webp
 
