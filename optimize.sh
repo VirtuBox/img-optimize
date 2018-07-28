@@ -1,5 +1,6 @@
 #!/bin/bash
-
+CSI="\\033["
+CEND="${CSI}0m"
 CGREEN="${CSI}1;32m"
 
 ##################################
@@ -49,7 +50,7 @@ bash -c '
 webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -lossless {} -o {}.webp; }
-fi' >> /tmp/image-optimization.log
+fi' 
 
         echo -ne "       png to webp conversion                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
