@@ -35,7 +35,7 @@ done
 
 # optimize jpg
 jpgoptimize() {
-$FIND  $imagepath -iname "*.jp*" -print0 | xargs -0 jpegoptim --quiet --strip-all -m76 
+$FIND  $imagepath -iname "*.jpg" -print0 | xargs -0 jpegoptim --quiet --strip-all -m76 
 
         echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
@@ -59,7 +59,7 @@ fi'
         echo -ne "\\n"
 
 # convert jpg to webp
-$FIND $imagepath -iname "*.jp*" -print0 | xargs -0 -I {} \
+$FIND $imagepath -iname "*.jpg" -print0 | xargs -0 -I {} \
 bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -z 6 -mt {} -o {}.webp; }
