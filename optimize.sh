@@ -3,15 +3,11 @@ CSI="\\033["
 CEND="${CSI}0m"
 CGREEN="${CSI}1;32m"
 
-### Set Bins Path ###
-
-FIND=/usr/bin/find
-
 ##################################
 # Welcome
 ##################################
 
-imagepath="$1"
+
 
 echo ""
 echo "Welcome to optimize.sh image optimization script."
@@ -35,21 +31,21 @@ done
 
 # optimize jpg
 jpgoptimize() {
-$FIND  $imagepath -iname "*.jpg" -print0 | xargs -0 jpegoptim --preserve --quiet --strip-all -m82 
+find $1 -iname "*.jpg" -o -iname "*.jpeg" -print0 | xargs -0 jpegoptim --preserve --quiet --strip-all -m82 
 
         echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # optimize png
 pngoptimize() {
-$FIND $imagepath -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all -quiet 
+find $1 -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all -quiet 
 
         echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # convert png to webp
 webpconvert() {
-$FIND $imagepath -iname "*.png" -print0 | xargs -0 -I {}  \
+find $1 -iname "*.png" -print0 | xargs -0 -I {}  \
 bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -z 9 -mt {} -o {}.webp; }
@@ -59,7 +55,7 @@ fi'
         echo -ne "\\n"
 
 # convert jpg to webp
-$FIND $imagepath -iname "*.jpg" -print0 | xargs -0 -I {} \
+find $1 -iname "*.jpg" -o -iname "*.jpeg" -print0 | xargs -0 -I {} \
 bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -q 82 -mt {} -o {}.webp; }
