@@ -7,8 +7,6 @@ CGREEN="${CSI}1;32m"
 # Welcome
 ##################################
 
-
-
 echo ""
 echo "Welcome to optimize.sh image optimization script."
 echo ""
@@ -30,22 +28,22 @@ while [[ $webp != "y" && $webp != "n" ]]; do
 done
 
 # optimize jpg
-jpgoptimize() {
-find $1 -iname "*.jpg" -o -iname "*.jpeg" -print0 | xargs -0 jpegoptim --preserve --quiet --strip-all -m82 
+jpg_optimize() {
+find "$1" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --quiet --strip-all -m82 
 
         echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # optimize png
-pngoptimize() {
-find $1 -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all -quiet 
+png_optimize() {
+find "$1" -type f  -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all -quiet 
 
         echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
         echo -ne "\\n"
 }
 # convert png to webp
-webpconvert() {
-find $1 -iname "*.png" -print0 | xargs -0 -I {}  \
+webp_convert_images() {
+find "$1" -type f -iname "*.png" -print0 | xargs -0 -I {}  \
 bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -z 9 -mt {} -o {}.webp; }
@@ -55,7 +53,7 @@ fi'
         echo -ne "\\n"
 
 # convert jpg to webp
-find $1 -iname "*.jpg" -o -iname "*.jpeg" -print0 | xargs -0 -I {} \
+find "$1" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
 bash -c 'webp_version="$0".webp
 if [ ! -f "$webp_version" ]; then
 { cwebp -quiet -q 82 -mt {} -o {}.webp; }
@@ -67,15 +65,15 @@ fi'
 
 if [ "$jpg" = "y" ]
 then
-    jpgoptimize
+    jpg_optimize "$@"
 fi
 if [ "$png" = "y" ]
 then
-    pngoptimize
+    png_optimize "$@"
 fi
 if [ "$webp" = "y" ]
 then
-    webpconvert
+    webp_convert_images "$@"
 fi
 
 # We're done !
