@@ -83,7 +83,7 @@ fi
 ##################################
 
 # optimize jpg
-if [ $JPG_OPTIMIZATION = "y" ]; then
+if [ "$JPG_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg optimization                      [..]\r'
     cd $IMG_PATH || exit 1
     find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --strip-all -m82
@@ -91,7 +91,7 @@ if [ $JPG_OPTIMIZATION = "y" ]; then
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
-if [ $PNG_OPTIMIZATION = "y" ]; then
+if [ "$PNG_OPTIMIZATION" = "y" ]; then
     # optimize png
 
     echo -ne '       png optimization                      [..]\r'
@@ -100,7 +100,7 @@ if [ $PNG_OPTIMIZATION = "y" ]; then
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
-if [ $WEBP_OPTIMIZATION = "y" ]; then
+if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     # convert png to webp
     echo -ne '       png to webp conversion                [..]\r'
     cd $IMG_PATH || exit 1
