@@ -52,7 +52,7 @@ echo ""
 echo "Welcome to optimize.sh image optimization script."
 echo ""
 
-if [ $# -lt 2 ]; then
+if [ -z "$JPG_OPTIMIZATION" ] && [ -z "$PNG_OPTIMIZATION" ] &&  [ -z "$WEBP_OPTIMIZATION" ]; then
     if [ -z "$JPG_OPTIMIZATION" ]; then
         echo ""
         echo "Do you want to optimize all jpg images in $1 ? (y/n)"
