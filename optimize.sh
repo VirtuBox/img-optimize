@@ -16,8 +16,7 @@ _help() {
     echo " Other options :"
     echo "       -h, --help, help ... displays this help information"
     echo "Examples:"
-    echo ""
-    echo "optimize all jpg images in /var/www/images"
+    echo "  optimize all jpg images in /var/www/images"
     echo "    img-optimize --jpg /var/www/images"
     echo ""
     return 0

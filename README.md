@@ -20,35 +20,41 @@ Centos 7  :
 sudo yum install optipng jpegoptim libwebp-tools -y
 ```
 
-### What does the script do
-
-1) optimize jpg images with jpegoptim
-2) optimize png images with optipng
-3) convert jpg & png images in WebP (without deleting them)
-
-WebP image name example for mybackground.png : mybackground.png.webp
-
 ---
 
-### Usage
+### Installation
 
 1) Download the script and make it executable
 
 ```bash
-wget https://raw.githubusercontent.com/VirtuBox/wp-optimize/master/optimize.sh
-chmod +x optimize.sh
+wget -O $HOME/optimize.sh https://raw.githubusercontent.com/VirtuBox/wp-optimize/master/optimize.sh
+chmod +x $HOME/optimize.sh
 ```
 
-2) Launch the script and set the path of your images as first argument
+2) Add an alias in your bashrc
 
 ```bash
-./optimize.sh /path/to/your/images
+echo "alias img-optimize=$HOME/optimize.sh" >> $HOME/.bashrc
+source $HOME/.bashrc
 ```
 
-To avoid permissions issues, you can run the script with another user with sudo
+
+### Usage
 
 ```bash
-sudo -u www-data ./optimize.sh /path/to/your/images
+Usage: img-optimize [options] <image path>
+  Options:
+       --jpg <image path> ..... optimize all jpg images
+       --png <image path> ..... optimize all png images
+       --webp <image path> ..... convert all images in webp
+       --nowebp <image path> ..... optimize all png & jpg images
+       --all <image path> ..... optimize all images (png + jpg + webp)
+ Other options :
+       -h, --help, help ... displays this help information
+Examples:
+  optimize all jpg images in /var/www/images
+    img-optimize --jpg /var/www/images
+
 ```
 
 ### Warning
