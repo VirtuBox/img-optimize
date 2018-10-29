@@ -3,6 +3,26 @@ CSI='\033['
 CEND="${CSI}0m"
 CGREEN="${CSI}1;32m"
 
+
+_help() {
+    echo "Bash script to optimize your images and convert them in WebP "
+    echo "Usage: img-optimize [options] <image path>"
+    echo "  Options:"
+    echo "       --jpg <image path> ..... optimize all jpg images"
+    echo "       --png <image path> ..... optimize all png images"
+    echo "       --webp <image path> ..... convert all images in webp"
+    echo "       --nowebp <image path> ..... optimize all png & jpg images"
+    echo "       --all <image path> ..... optimize all images (png + jpg + webp)"
+    echo " Other options :"
+    echo "       -h, --help, help ... displays this help information"
+    echo "Examples:"
+    echo ""
+    echo "optimize all jpg images in /var/www/images"
+    echo "    img-optimize --jpg /var/www/images"
+    echo ""
+    return 0
+}
+
 ##################################
 # Parse script arguments
 ##################################
@@ -38,6 +58,10 @@ while [[ $# -gt 0 ]]; do
             WEBP_OPTIMIZATION="y"
             IMG_PATH=$2
             shift
+        ;;
+        -h | --help | help)
+            _help
+            exit 1
         ;;
         *) ;;
     esac
