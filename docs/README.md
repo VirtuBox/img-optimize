@@ -24,20 +24,18 @@ sudo yum install optipng jpegoptim libwebp-tools -y
 
 ### Installation
 
-1) Download the script and make it executable
+1) Download the script
 
 ```bash
-wget -O $HOME/optimize.sh https://raw.githubusercontent.com/VirtuBox/wp-optimize/master/optimize.sh
-chmod +x $HOME/optimize.sh
+git clone https://github.com/VirtuBox/img-optimize.git $HOME/.img-optimize
 ```
 
 2) Add an alias in your bashrc
 
 ```bash
-echo "alias img-optimize=$HOME/optimize.sh" >> $HOME/.bashrc
+echo "alias img-optimize=$HOME/.img-optimize/optimize.sh" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
-
 
 ### Usage
 
@@ -55,6 +53,16 @@ Examples:
   optimize all jpg images in /var/www/images
     img-optimize --jpg /var/www/images
 
+```
+
+### Update the script
+
+To update the script, just run :
+
+```bash
+git -C $HOME/.img-optimize pull
+
+source .bashrc
 ```
 
 ### Warning
