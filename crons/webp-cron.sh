@@ -4,22 +4,18 @@
 ## images path are listed in sites.csv
 ## written by VirtuBox (https://virtubox.net)
 
-input="sites.csv"
-while IFS='|' read -r f1 f2
-do
+sites="/var/www/yoursite.tld/images \
+       /var/www/yourothersite.tld/content/images \
+       /var/www/yourthirdsite.tld/wp-content/uploads"
+
+for site in $sites; do
 # convert png created in the last 24 hours to webp
 {
-find "$f2" -ctime 0 -type f -iname "*.png" -print0 | xargs -0 -I {}  \
-bash -c 'webp_version="$0".webp
-if [ ! -f "$webp_version" ]; then
-{ cwebp -quiet -z 9 -mt {} -o {}.webp; }
-fi'  
+find "$site" -ctime 0 -type f -iname "*.png" -print0 | xargs -0 -I {}  \
+bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt {} -o {}.webp; }' >> /var/log/webp-cron.log 2>&1
 # convert jpg created in the last 24 hours to webp
-find "$f2" -ctime 0 -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
-bash -c 'webp_version="$0".webp
-if [ ! -f "$webp_version" ]; then
-{ cwebp -quiet -q 82 -mt {} -o {}.webp; }
-fi'
-} >> /var/log/webp-cron.log
-done < "$input"
+find "$site" -ctime 0 -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
+bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt {} -o {}.webp; }'
+} >> /var/log/webp-cron.log 2>&1
+done
 

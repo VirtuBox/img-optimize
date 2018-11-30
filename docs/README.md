@@ -65,10 +65,24 @@ git -C $HOME/.img-optimize pull
 source .bashrc
 ```
 
+### Setup daily cronjob
+
+You copy the scripts to /etc/cron.daily :
+
+```bash
+cp $HOME/.img-optimize/crons/jpg-png-cron.sh /etc/cron.daily/jpg-png-cron
+cp $HOME/.img-optimize/crons/jpg-png-cron.sh /etc/cron.daily/webp-cron
+
+chmod +x /etc/cron.daily/jpg-png-cron
+chmod +x /etc/cron.daily/webp-cron
+```
+
+Then just edit your websites path set with the variables `sites` at the beginning of the cron scripts.
+
 ### Warning
 
 Conversion process can take a while, you can use `tmux` to launch the script and be able to close your ssh connection without interrupting conversion. Then just use `tmux attach` to login back in your tmux session.
 
 ### Credits
 
-WebP conversion script is inspired by this [DigitalOcean Community Tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-and-serve-webp-images-to-speed-up-your-website)
+WebP conversion script was inspired by this [DigitalOcean Community Tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-and-serve-webp-images-to-speed-up-your-website)
