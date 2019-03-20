@@ -1,4 +1,16 @@
 #!/bin/bash
+#----------------------------------------------------------------------------
+#  img-optimize-  Image optimization bash script
+#----------------------------------------------------------------------------
+# Website:       https://virtubox.net
+# GitHub:        https://github.com/VirtuBox/img-optimize
+# Author:        VirtuBox
+# License:       M.I.T
+# ----------------------------------------------------------------------------
+# Version 1.0 - 2019-03-20
+# ----------------------------------------------------------------------------
+
+#!/bin/bash
 CSI='\033['
 CEND="${CSI}0m"
 CGREEN="${CSI}1;32m"
@@ -26,46 +38,53 @@ _help() {
 # Parse script arguments
 ##################################
 
-while [[ $# -gt 0 ]]; do
-    arg="$1"
-    case $arg in
-        --jpg)
-            JPG_OPTIMIZATION="y"
-            IMG_PATH=$2
-            shift
-        ;;
-        --png)
-            PNG_OPTIMIZATION="y"
-            IMG_PATH=$2
-            shift
-        ;;
-        --nowebp)
-            JPG_OPTIMIZATION="y"
-            PNG_OPTIMIZATION="y"
-            WEBP_OPTIMIZATION="n"
-            IMG_PATH=$2
-            shift
-        ;;
-        --webp)
-            WEBP_OPTIMIZATION="y"
-            IMG_PATH=$2
-            shift
-        ;;
-        --all)
-            PNG_OPTIMIZATION="y"
-            JPG_OPTIMIZATION="y"
-            WEBP_OPTIMIZATION="y"
-            IMG_PATH=$2
-            shift
-        ;;
-        -h | --help | help)
-            _help
-            exit 1
-        ;;
-        *) ;;
-    esac
-    shift
-done
+if [ "${#}" = "0"  ]; then
+    _help
+    exit 1
+else
+    
+    while [ ${#} -gt 0 ]; do
+        case "${1}" in
+            --jpg)
+                JPG_OPTIMIZATION="y"
+                if [ "$2" ]; then
+                    IMG_PATH=$2
+                fi
+                shift
+            ;;
+            --png)
+                PNG_OPTIMIZATION="y"
+                IMG_PATH=$2
+                shift
+            ;;
+            --nowebp)
+                JPG_OPTIMIZATION="y"
+                PNG_OPTIMIZATION="y"
+                WEBP_OPTIMIZATION="n"
+                IMG_PATH=$2
+                shift
+            ;;
+            --webp)
+                WEBP_OPTIMIZATION="y"
+                IMG_PATH=$2
+                shift
+            ;;
+            --all)
+                PNG_OPTIMIZATION="y"
+                JPG_OPTIMIZATION="y"
+                WEBP_OPTIMIZATION="y"
+                IMG_PATH=$2
+                shift
+            ;;
+            -h | --help | help)
+                _help
+                exit 1
+            ;;
+            *) ;;
+        esac
+        shift
+    done
+fi
 
 ##################################
 # Welcome
@@ -110,13 +129,13 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg optimization                      [..]\r'
     cd $IMG_PATH || exit 1
     find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --strip-all -m82
-
+    
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
 if [ "$PNG_OPTIMIZATION" = "y" ]; then
     # optimize png
-
+    
     echo -ne '       png optimization                      [..]\r'
     cd $IMG_PATH || exit 1
     find . -type f -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all
@@ -129,16 +148,16 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd $IMG_PATH || exit 1
     find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
     bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt {} -o {}.webp; }'
-
+    
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
-
+    
     # convert jpg to webp
     echo -ne '       jpg to webp conversion                [..]\r'
     cd $IMG_PATH || exit 1
     find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
     bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt {} -o {}.webp; }'
-
+    
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
