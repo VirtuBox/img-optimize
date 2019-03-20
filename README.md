@@ -40,19 +40,19 @@ source $HOME/.bashrc
 ### Usage
 
 ```bash
-Usage: img-optimize [options] <image path>
+Usage: img-optimize [options] <images path>
+If images path is not defined, img-optimize will use the current directory
   Options:
-       --jpg <image path> ..... optimize all jpg images
-       --png <image path> ..... optimize all png images
-       --webp <image path> ..... convert all images in webp
-       --nowebp <image path> ..... optimize all png & jpg images
-       --all <image path> ..... optimize all images (png + jpg + webp)
+       --jpg <images path> ..... optimize all jpg images
+       --png <images path> ..... optimize all png images
+       --webp <images path> ..... convert all images in webp
+       --nowebp <images path> ..... optimize all png & jpg images
+       --all <images path> ..... optimize all images (png + jpg + webp)
  Other options :
        -h, --help, help ... displays this help information
 Examples:
   optimize all jpg images in /var/www/images
     img-optimize --jpg /var/www/images
-
 ```
 
 ### Update the script

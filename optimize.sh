@@ -18,13 +18,14 @@ CGREEN="${CSI}1;32m"
 
 _help() {
     echo "Bash script to optimize your images and convert them in WebP "
-    echo "Usage: img-optimize [options] <image path>"
+    echo "Usage: img-optimize [options] <images path>"
+    echo "If images path isn't defined, img-optimize will use the current directory "
     echo "  Options:"
-    echo "       --jpg <image path> ..... optimize all jpg images"
-    echo "       --png <image path> ..... optimize all png images"
-    echo "       --webp <image path> ..... convert all images in webp"
-    echo "       --nowebp <image path> ..... optimize all png & jpg images"
-    echo "       --all <image path> ..... optimize all images (png + jpg + webp)"
+    echo "       --jpg <images path> ..... optimize all jpg images"
+    echo "       --png <images path> ..... optimize all png images"
+    echo "       --webp <images path> ..... convert all images in webp"
+    echo "       --nowebp <images path> ..... optimize all png & jpg images"
+    echo "       --all <images path> ..... optimize all images (png + jpg + webp)"
     echo " Other options :"
     echo "       -h, --help, help ... displays this help information"
     echo "Examples:"
@@ -43,38 +44,56 @@ if [ "${#}" = "0"  ]; then
     exit 1
 else
     
-    while [ ${#} -gt 0 ]; do
-        case "${1}" in
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
             --jpg)
                 JPG_OPTIMIZATION="y"
                 if [ "$2" ]; then
                     IMG_PATH=$2
+                    shift
+                else
+                    IMG_PATH="./*"
                 fi
-                shift
             ;;
             --png)
                 PNG_OPTIMIZATION="y"
-                IMG_PATH=$2
-                shift
+                if [ "$2" ]; then
+                    IMG_PATH=$2
+                    shift
+                else
+                    IMG_PATH="./*"
+                fi
             ;;
             --nowebp)
                 JPG_OPTIMIZATION="y"
                 PNG_OPTIMIZATION="y"
                 WEBP_OPTIMIZATION="n"
-                IMG_PATH=$2
-                shift
+                if [ "$2" ]; then
+                    IMG_PATH=$2
+                    shift
+                else
+                    IMG_PATH="./*"
+                fi
             ;;
             --webp)
                 WEBP_OPTIMIZATION="y"
-                IMG_PATH=$2
-                shift
+                if [ "$2" ]; then
+                    IMG_PATH=$2
+                    shift
+                else
+                    IMG_PATH="./*"
+                fi
             ;;
             --all)
                 PNG_OPTIMIZATION="y"
                 JPG_OPTIMIZATION="y"
                 WEBP_OPTIMIZATION="y"
-                IMG_PATH=$2
-                shift
+                if [ "$2" ]; then
+                    IMG_PATH=$2
+                    shift
+                else
+                    IMG_PATH="./*"
+                fi
             ;;
             -h | --help | help)
                 _help
