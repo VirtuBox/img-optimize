@@ -52,7 +52,7 @@ else
                     IMG_PATH=$2
                     shift
                 else
-                    IMG_PATH="./*"
+                    IMG_PATH="$PWD"
                 fi
             ;;
             --png)
@@ -61,7 +61,7 @@ else
                     IMG_PATH=$2
                     shift
                 else
-                    IMG_PATH="./*"
+                    IMG_PATH="$PWD"
                 fi
             ;;
             --nowebp)
@@ -72,7 +72,7 @@ else
                     IMG_PATH=$2
                     shift
                 else
-                    IMG_PATH="./*"
+                    IMG_PATH="$PWD"
                 fi
             ;;
             --webp)
@@ -81,7 +81,7 @@ else
                     IMG_PATH=$2
                     shift
                 else
-                    IMG_PATH="./*"
+                    IMG_PATH="$PWD"
                 fi
             ;;
             --all)
@@ -92,7 +92,7 @@ else
                     IMG_PATH=$2
                     shift
                 else
-                    IMG_PATH="./*"
+                    IMG_PATH="$PWD"
                 fi
             ;;
             -h | --help | help)
