@@ -178,7 +178,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     echo -ne '       png to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt {} -o {}.webp; }'
+        bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt "{}" -o "{}.webp"; }'
 
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -187,7 +187,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt {} -o {}.webp; }'
+        bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt "{}" -o "{}.webp"; }'
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
