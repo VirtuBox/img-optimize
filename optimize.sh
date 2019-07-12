@@ -156,9 +156,9 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
-        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim -q --preserve --strip-all -m82
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -r -0 jpegoptim -q --preserve --strip-all -m82
     else
-        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --strip-all -m82
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -r -0 jpegoptim --preserve --strip-all -m82
     fi
 
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
@@ -174,9 +174,9 @@ if [ "$PNG_OPTIMIZATION" = "y" ]; then
     echo -ne '       png optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
-        find . -type f -iname '*.png' -print0 | xargs -0 optipng -quiet -o7 -strip all
+        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o7 -strip all
     else
-        find . -type f -iname '*.png' -print0 | xargs -0 optipng -quiet -o7 -strip all
+        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o7 -strip all
     fi
 
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
@@ -191,10 +191,10 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     echo -ne '       png to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
-        find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
+        find . -type f -iname "*.png" -print0 | xargs -r -0 -I {} \
             bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -z 9 -mt "{}" -o "{}.webp"; }'
     else
-        find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
+        find . -type f -iname "*.png" -print0 | xargs -r -0 -I {} \
             bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt "{}" -o "{}.webp"; }'
     fi
 
