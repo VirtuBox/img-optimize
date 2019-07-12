@@ -174,9 +174,9 @@ if [ "$PNG_OPTIMIZATION" = "y" ]; then
     echo -ne '       png optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
-        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o7 -strip all
+        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o5 -strip all
     else
-        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o7 -strip all
+        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng -quiet -o5 -strip all
     fi
 
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
@@ -192,7 +192,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
         find . -type f -iname "*.png" -print0 | xargs -r -0 -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -z 9 -mt "{}" -o "{}.webp"; }'
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt -quiet "{}" -o "{}.webp"; }'
     else
         find . -type f -iname "*.png" -print0 | xargs -r -0 -I {} \
             bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -short -mt "{}" -o "{}.webp"; }'
@@ -206,7 +206,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ "$QUIET_MODE" = "1" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -quiet -mt "{}" -o "{}.webp"; }'
     else
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
             bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -short -mt "{}" -o "{}.webp"; }'
