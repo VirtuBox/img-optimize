@@ -1,0 +1,22 @@
+sudo: required
+dist: xenial
+
+language: bash
+
+cache:
+  apt: true
+
+git:
+  quiet: true
+
+before_script:
+  - sudo apt-get -qq autoremove --purge
+addons:
+  apt:
+    update: true
+
+script:
+  - sudo apt-get install jpegoptim optipng cwebp -y
+  - sudo cp optimize.sh /usr/local/bin/img-optimize
+  - sudo chmod 755 /usr/local/bin/img-optimize
+  - /usr/local/bin/img-optimize --all
