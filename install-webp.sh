@@ -15,5 +15,5 @@ cd libwebp-* || exit
 # configure libwebp and launch compilation
 ./configure --prefix=/usr
 make -j "$(nproc)"
+strip --strip-unneeded /usr/local/src/libwebp-*/examples/.libs/{cwebp,dwebp}
 make install
-strip --strip-unneeded /usr/bin/cwebp
