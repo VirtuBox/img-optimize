@@ -9,7 +9,7 @@ rm -rf libwebp*
 
 # download and extract latest libwebp sources
 wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.0.2.tar.gz -O libwebp.tar.gz
-tar xvzf libwebp.tar.gz
+tar xzf libwebp.tar.gz
 cd libwebp-* || exit
 
 # configure libwebp and launch compilation
