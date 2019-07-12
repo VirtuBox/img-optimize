@@ -195,7 +195,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
             bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -z 9 -mt "{}" -o "{}.webp"; }'
     else
         find . -type f -iname "*.png" -print0 | xargs -r -0 -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt "{}" -o "{}.webp"; }'
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -short -mt "{}" -o "{}.webp"; }'
     fi
 
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
@@ -209,7 +209,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
             bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
     else
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt "{}" -o "{}.webp"; }'
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -short -mt "{}" -o "{}.webp"; }'
     fi
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
