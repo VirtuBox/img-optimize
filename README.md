@@ -54,18 +54,20 @@ sudo cp $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize
 ## Usage
 
 ```bash
+Bash script to optimize your images and convert them in WebP
 Usage: img-optimize [options] <images path>
-If images path is empty, img-optimize will use the current directory
+If images path isn't defined, img-optimize will use the current directory
   Options:
        --jpg <images path> ..... optimize all jpg images
        --png <images path> ..... optimize all png images
        --webp <images path> ..... convert all images in webp
        --nowebp <images path> ..... optimize all png & jpg images
        --all <images path> ..... optimize all images (png + jpg + webp)
-       -i, --interactive ... run img-optimize in interactive mode
+       -i, --interactive ..... run img-optimize in interactive mode
+       -q, --quiet ..... run image optimization quietly
  Other options :
        -h, --help, help ... displays this help information
-Example:
+Examples:
   optimize all jpg images in /var/www/images
     img-optimize --jpg /var/www/images
 ```

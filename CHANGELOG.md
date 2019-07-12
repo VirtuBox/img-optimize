@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- quiet mode
+
 ### Changed
 
 ## [V1.1] - 2019-04-05
