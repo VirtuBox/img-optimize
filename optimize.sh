@@ -24,7 +24,8 @@ _help() {
     echo "       --webp <images path> ..... convert all images in webp"
     echo "       --nowebp <images path> ..... optimize all png & jpg images"
     echo "       --all <images path> ..... optimize all images (png + jpg + webp)"
-    echo "       -i, --interactive ... run img-optimize in interactive mode"
+    echo "       -i, --interactive ..... run img-optimize in interactive mode"
+    echo "       -q, --quiet ..... run image optimization quietly"
     echo " Other options :"
     echo "       -h, --help, help ... displays this help information"
     echo "Examples:"
@@ -86,6 +87,9 @@ else
             ;;
         -i | --interactive)
             INTERACTIVE_MODE="1"
+            ;;
+        -q | --quiet)
+            QUIET_MODE="1"
             ;;
         -h | --help | help)
             _help
@@ -151,7 +155,11 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     }
     echo -ne '       jpg optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --strip-all -m82
+    if [ "$QUIET_MODE" = "1" ]; then
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim -q --preserve --strip-all -m82
+    else
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 jpegoptim --preserve --strip-all -m82
+    fi
 
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -165,7 +173,12 @@ if [ "$PNG_OPTIMIZATION" = "y" ]; then
 
     echo -ne '       png optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname '*.png' -print0 | xargs -0 optipng -o7 -strip all
+    if [ "$QUIET_MODE" = "1" ]; then
+        find . -type f -iname '*.png' -print0 | xargs -0 optipng -quiet -o7 -strip all
+    else
+        find . -type f -iname '*.png' -print0 | xargs -0 optipng -quiet -o7 -strip all
+    fi
+
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
@@ -177,8 +190,13 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     # convert png to webp
     echo -ne '       png to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt "{}" -o "{}.webp"; }'
+    if [ "$QUIET_MODE" = "1" ]; then
+        find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -z 9 -mt "{}" -o "{}.webp"; }'
+    else
+        find . -type f -iname "*.png" -print0 | xargs -0 -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt "{}" -o "{}.webp"; }'
+    fi
 
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -186,8 +204,13 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     # convert jpg to webp
     echo -ne '       jpg to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt "{}" -o "{}.webp"; }'
+    if [ "$QUIET_MODE" = "1" ]; then
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+    else
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -q 82 -mt "{}" -o "{}.webp"; }'
+    fi
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
