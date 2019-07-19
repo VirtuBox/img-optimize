@@ -82,7 +82,7 @@ else
             ;;
         --cmin)
             if [ "$2" ]; then
-               FIND_ARGS+="-cmin $2"
+                FIND_ARGS+="-cmin $2"
                 shift
             fi
             ;;
@@ -155,7 +155,7 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     }
     echo -ne '       jpg optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) ${FIND_ARGS} -print0 | xargs -r -0 jpegoptim ${JPG_ARGS} --preserve --strip-all -m82
+    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) "$FIND_ARGS" -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
 
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -169,7 +169,7 @@ if [ "$PNG_OPTIMIZATION" = "y" ]; then
 
     echo -ne '       png optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname '*.png' ${FIND_ARGS} -print0 | xargs -r -0 optipng ${PNG_ARGS} -o5 -strip all
+    find . -type f -iname '*.png' "$FIND_ARGS" -print0 | xargs -r -0 optipng "$PNG_ARGS" -o5 -strip all
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
@@ -181,8 +181,8 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     # convert png to webp
     echo -ne '       png to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname "*.png" ${FIND_ARGS} -print0 | xargs -r -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp ${WEBP_ARGS} -z 9 -mt -quiet "{}" -o "{}.webp"; }'
+    find . -type f -iname "*.png" "$FIND_ARGS" -print0 | xargs -r -0 -I {} \
+        bash -c '[ ! -f "{}.webp" ] && { cwebp "${WEBP_ARGS}" -z 9 -mt -quiet "{}" -o "{}.webp"; }'
 
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -191,7 +191,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) ${FIND_ARGS} -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp ${WEBP_ARGS} -q 82 -mt "{}" -o "{}.webp"; }'
+        bash -c '[ ! -f "{}.webp" ] && { cwebp "${WEBP_ARGS}" -q 82 -mt "{}" -o "{}.webp"; }'
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
