@@ -2,7 +2,7 @@
 
 ![img-optimize](https://raw.githubusercontent.com/VirtuBox/img-optimize/master/img-optimize.png)
 
-![GitHub](https://img.shields.io/github/license/VirtuBox/img-optimize.svg) ![GitHub release](https://img.shields.io/github/release/VirtuBox/img-optimize.svg) ![GitHub last commit](https://img.shields.io/github/last-commit/VirtuBox/img-optimize.svg) ![Github stars](https://img.shields.io/github/stars/VirtuBox/img-optimize.svg)
+[![Travis (.org)](https://img.shields.io/travis/VirtuBox/img-optimize.svg)](https://travis-ci.org/VirtuBox/img-optimize) ![GitHub](https://img.shields.io/github/license/VirtuBox/img-optimize.svg) ![GitHub release](https://img.shields.io/github/release/VirtuBox/img-optimize.svg) ![GitHub last commit](https://img.shields.io/github/last-commit/VirtuBox/img-optimize.svg) ![Github stars](https://img.shields.io/github/stars/VirtuBox/img-optimize.svg)
 
 ## Prerequisite
 

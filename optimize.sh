@@ -23,20 +23,21 @@ _help() {
     echo "Usage: img-optimize [options] <images path>"
     echo "If images path isn't defined, img-optimize will use the current directory "
     echo "  Options:"
-    echo "       --jpg <images path> ..... optimize all jpg images"
-    echo "       --png <images path> ..... optimize all png images"
-    echo "       --webp <images path> ..... convert all images in webp"
-    echo "       --nowebp <images path> ..... optimize all png & jpg images"
-    echo "       --all <images path> ..... optimize all images (png + jpg + webp)"
+    echo "       --jpg ..... optimize all jpg images"
+    echo "       --png ..... optimize all png images"
+    echo "       --webp ..... convert all images in webp"
+    echo "       --nowebp ..... optimize all png & jpg images"
+    echo "       --all ..... optimize all images (png + jpg + webp)"
     echo "       -i, --interactive ..... run img-optimize in interactive mode"
     echo "       -q, --quiet ..... run image optimization quietly"
+    echo "       --path <images path> ..... define images path"
     echo " Other options :"
     echo "       -h, --help, help ... displays this help information"
     echo "       --cmin [+|-]<n> ... File's status was last changed n minutes ago."
     echo "         act find cmin argument (+n : greater than n, -n : less than n, n : exactly n)"
     echo "Examples:"
     echo "  optimize all jpg images in /var/www/images"
-    echo "    img-optimize --jpg /var/www/images"
+    echo "    img-optimize --jpg --path /var/www/images"
     echo ""
     return 0
 }
@@ -54,42 +55,22 @@ else
         case "$1" in
         --jpg)
             JPG_OPTIMIZATION="y"
-            if [ "$2" ]; then
-                IMG_PATH=$2
-                shift
-            fi
             ;;
         --png)
             PNG_OPTIMIZATION="y"
-            if [ "$2" ]; then
-                IMG_PATH=$2
-                shift
-            fi
             ;;
         --nowebp)
             JPG_OPTIMIZATION="y"
             PNG_OPTIMIZATION="y"
             WEBP_OPTIMIZATION="n"
-            if [ "$2" ]; then
-                IMG_PATH=$2
-                shift
-            fi
             ;;
         --webp)
             WEBP_OPTIMIZATION="y"
-            if [ "$2" ]; then
-                IMG_PATH=$2
-                shift
-            fi
             ;;
         --all)
             PNG_OPTIMIZATION="y"
             JPG_OPTIMIZATION="y"
             WEBP_OPTIMIZATION="y"
-            if [ "$2" ]; then
-                IMG_PATH=$2
-                shift
-            fi
             ;;
         -i | --interactive)
             INTERACTIVE_MODE="1"
@@ -102,7 +83,12 @@ else
         --cmin)
             if [ "$2" ]; then
                FIND_ARGS+="-cmin $2"
-               shift
+                shift
+            fi
+            ;;
+        --path)
+            if [ "$2" ]; then
+                IMG_PATH="$2"
             fi
             ;;
         -h | --help | help)
