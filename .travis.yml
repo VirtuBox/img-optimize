@@ -16,8 +16,15 @@ addons:
     update: true
 
 script:
-  - sudo apt-get install jpegoptim optipng -y
+  - sudo apt-get install jpegoptim -y
   - sudo bash install-webp.sh
+  - sudo bash install-optipng.sh
   - sudo cp optimize.sh /usr/local/bin/img-optimize
   - sudo chmod 755 /usr/local/bin/img-optimize
   - /usr/local/bin/img-optimize --all
+  - /usr/local/bin/img-optimize -jpg -q
+  - /usr/local/bin/img-optimize --png -q
+  - rm images/*.webp
+  - /usr/local/bin/img-optimize --webp
+  - rm images/*.webp
+  - /usr/local/bin/img-optimize --webp --quiet
