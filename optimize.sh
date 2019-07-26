@@ -17,6 +17,7 @@ FIND_ARGS=""
 PNG_ARGS=""
 JPG_ARGS=""
 WEBP_ARGS=""
+IMG_PATH="$PWD"
 
 _help() {
     echo "Bash script to optimize your images and convert them in WebP "
@@ -76,19 +77,20 @@ else
             INTERACTIVE_MODE="1"
             ;;
         -q | --quiet)
-            PNG_ARGS+=" -quiet"
-            JPG_ARGS+=" --quiet"
-            WEBP_ARGS+=" -quiet"
+            PNG_ARGS=" -quiet"
+            JPG_ARGS=" --quiet"
+            WEBP_ARGS=" -quiet"
             ;;
         --cmin)
-            if [ "$2" ]; then
-                FIND_ARGS+="-cmin $2"
+            if [ -n "$2" ]; then
+                FIND_ARGS="$2"
                 shift
             fi
             ;;
         --path)
-            if [ "$2" ]; then
+            if [ -n "$2" ]; then
                 IMG_PATH="$2"
+                shift
             fi
             ;;
         -h | --help | help)
@@ -112,34 +114,34 @@ echo ""
 if [ "$INTERACTIVE_MODE" = "1" ]; then
     if [ -z "$IMG_PATH" ]; then
         echo "What is the path of images you want to optimize ?"
-        read -p "Images path (eg. /var/www/images): " IMG_PATH
+        echo "Images path (eg. /var/www/images):"
+        read -r IMG_PATH
     fi
     if [ -z "$JPG_OPTIMIZATION" ]; then
         echo ""
         echo "Do you want to optimize all jpg images in $IMG_PATH ? (y/n)"
         while [[ $JPG_OPTIMIZATION != "y" && $JPG_OPTIMIZATION != "n" ]]; do
-            read -p "Select an option [y/n]: " JPG_OPTIMIZATION
+            echo "Select an option [y/n]: "
+            read -r JPG_OPTIMIZATION
         done
     fi
     if [ -z "$PNG_OPTIMIZATION" ]; then
         echo ""
         echo "Do you want to optimize all png images in $IMG_PATH (it may take a while) ? (y/n)"
         while [[ $PNG_OPTIMIZATION != "y" && $PNG_OPTIMIZATION != "n" ]]; do
-            read -p "Select an option [y/n]: " PNG_OPTIMIZATION
+            echo "Select an option [y/n]: "
+            read -r PNG_OPTIMIZATION
         done
     fi
     if [ -z "$WEBP_OPTIMIZATION" ]; then
         echo ""
         echo "Do you want to convert all jpg & png images to WebP in $IMG_PATH ? (y/n)"
         while [[ $WEBP_OPTIMIZATION != "y" && $WEBP_OPTIMIZATION != "n" ]]; do
-            read -p "Select an option [y/n]: " WEBP_OPTIMIZATION
+            echo "Select an option [y/n]: "
+            read -r WEBP_OPTIMIZATION
         done
         echo ""
         echo ""
-    fi
-else
-    if [ -z "$IMG_PATH" ]; then
-        IMG_PATH="$PWD"
     fi
 fi
 
@@ -155,7 +157,11 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     }
     echo -ne '       jpg optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) "$FIND_ARGS" -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
+    if [ -n "$FIND_ARGS" ]; then
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
+    else
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
+    fi
 
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -169,7 +175,11 @@ if [ "$PNG_OPTIMIZATION" = "y" ]; then
 
     echo -ne '       png optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname '*.png' "$FIND_ARGS" -print0 | xargs -r -0 optipng "$PNG_ARGS" -o5 -strip all
+    if [ -n "$FIND_ARGS" ]; then
+        find . -type f -iname '*.png' -cmin "$FIND_ARGS" -print0 | xargs -r -0 optipng "$PNG_ARGS" -o5 -strip all
+    else
+        find . -type f -iname '*.png' -print0 | xargs -r -0 optipng "$PNG_ARGS" -o5 -strip all
+    fi
     echo -ne "       png optimization                      [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 fi
@@ -181,17 +191,26 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     # convert png to webp
     echo -ne '       png to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f -iname "*.png" "$FIND_ARGS" -print0 | xargs -r -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp "${WEBP_ARGS}" -z 9 -mt -quiet "{}" -o "{}.webp"; }'
-
+    if [ -n "$FIND_ARGS" ]; then
+        find . -type f -iname "*.png" -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt -quiet "{}" -o "{}.webp"; }'
+    else
+        find . -type f -iname "*.png" -print0 | xargs -0 -r -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt -quiet "{}" -o "{}.webp"; }'
+    fi
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 
     # convert jpg to webp
     echo -ne '       jpg to webp conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
-    find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) ${FIND_ARGS} -print0 | xargs -0 -I {} \
-        bash -c '[ ! -f "{}.webp" ] && { cwebp "${WEBP_ARGS}" -q 82 -mt "{}" -o "{}.webp"; }'
+    if [ -n "$FIND_ARGS" ]; then
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+    else
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -r -I {} \
+            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+    fi
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
