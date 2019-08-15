@@ -1,5 +1,5 @@
 sudo: required
-dist: xenial
+dist: bionic
 
 language: bash
 
@@ -17,8 +17,8 @@ addons:
 
 script:
   - sudo apt-get install jpegoptim -y
-  - sudo bash install-webp.sh
-  - sudo bash install-optipng.sh
+  - sudo bash scripts/install-webp.sh
+  - sudo bash scripts/install-optipng.sh
   - sudo cp optimize.sh /usr/local/bin/img-optimize
   - sudo chmod 755 /usr/local/bin/img-optimize
   - /usr/local/bin/img-optimize --all

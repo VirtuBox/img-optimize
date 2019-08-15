@@ -10,6 +10,8 @@
 - optipng for png optimization
 - cwebp for WebP conversion
 
+### From APT repositories
+
 Debian/Ubuntu :
 
 ```bash
@@ -20,6 +22,18 @@ Centos 7 :
 
 ```bash
 sudo yum install optipng jpegoptim libwebp-tools -y
+```
+
+### Compile the latest release (optipng & libwebp)
+
+For Debian/Ubuntu (available in scripts folder) :
+
+```bash
+# optipng
+curl -sL git.io/fjd0v | sudo -E bash
+
+# libwebp
+curl -sL git.io/fjd0v | sudo -E bash
 ```
 
 --------------------------------------------------------------------------------
@@ -43,12 +57,13 @@ echo "alias img-optimize=$HOME/.img-optimize/optimize.sh" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
 
-**Method 2** : Copy the script in /usr/local/bin
+**Method 2** : Add an alias to the script in /usr/local/bin
 
 With this method img-optimize can be used by all users
 
 ```bash
-sudo cp $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize
+sudo ln -s $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize
+sudo chmod +x /usr/local/bin/img-optimize
 ```
 
 ## Usage
@@ -80,15 +95,9 @@ To update the script, just run :
 git -C $HOME/.img-optimize pull
 ```
 
-If you previously used the 2nd install method, you have to copy the script again to update it
-
-```bash
-sudo cp $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize -f
-```
-
 ## Setup daily cronjob
 
-You copy the scripts to /etc/cron.daily :
+You just have to copy the scripts to /etc/cron.daily :
 
 ```bash
 cp $HOME/.img-optimize/crons/jpg-png-cron.sh /etc/cron.daily/jpg-png-cron

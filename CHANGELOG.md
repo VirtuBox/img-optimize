@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - quiet mode
 - option --no-run-if-empty added to xargs
+- scripts to compile optipng & libwebp from source
 
 ### Changed
 
