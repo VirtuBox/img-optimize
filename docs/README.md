@@ -2,13 +2,15 @@
 
 ![img-optimize](https://raw.githubusercontent.com/VirtuBox/img-optimize/master/img-optimize.png)
 
-![GitHub](https://img.shields.io/github/license/VirtuBox/img-optimize.svg) ![GitHub release](https://img.shields.io/github/release/VirtuBox/img-optimize.svg) ![GitHub last commit](https://img.shields.io/github/last-commit/VirtuBox/img-optimize.svg) ![Github stars](https://img.shields.io/github/stars/VirtuBox/img-optimize.svg)
+[![Travis](https://img.shields.io/travis/virtubox/img-optimize.svg)](https://travis-ci.org/VirtuBox/img-optimize) ![GitHub](https://img.shields.io/github/license/VirtuBox/img-optimize.svg) ![GitHub release](https://img.shields.io/github/release/VirtuBox/img-optimize.svg) ![GitHub last commit](https://img.shields.io/github/last-commit/VirtuBox/img-optimize.svg) ![Github stars](https://img.shields.io/github/stars/VirtuBox/img-optimize.svg)
 
 ## Prerequisite
 
 - jpegoptim for jpg optimization
 - optipng for png optimization
 - cwebp for WebP conversion
+
+### From APT repositories
 
 Debian/Ubuntu :
 
@@ -20,6 +22,18 @@ Centos 7 :
 
 ```bash
 sudo yum install optipng jpegoptim libwebp-tools -y
+```
+
+### Compile the latest release (optipng & libwebp)
+
+For Debian/Ubuntu (available in scripts folder) :
+
+```bash
+# optipng
+curl -sL git.io/fjddn | sudo -E bash
+
+# libwebp
+curl -sL git.io/fjdd6 | sudo -E bash
 ```
 
 --------------------------------------------------------------------------------
@@ -43,29 +57,32 @@ echo "alias img-optimize=$HOME/.img-optimize/optimize.sh" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
 
-**Method 2** : Copy the script in /usr/local/bin
+**Method 2** : Add an alias to the script in /usr/local/bin
 
 With this method img-optimize can be used by all users
 
 ```bash
-sudo cp $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize
+sudo ln -s $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize
+sudo chmod +x /usr/local/bin/img-optimize
 ```
 
 ## Usage
 
 ```bash
+Bash script to optimize your images and convert them in WebP
 Usage: img-optimize [options] <images path>
-If images path is empty, img-optimize will use the current directory
+If images path isn't defined, img-optimize will use the current directory
   Options:
        --jpg <images path> ..... optimize all jpg images
        --png <images path> ..... optimize all png images
        --webp <images path> ..... convert all images in webp
        --nowebp <images path> ..... optimize all png & jpg images
        --all <images path> ..... optimize all images (png + jpg + webp)
-       -i, --interactive ... run img-optimize in interactive mode
+       -i, --interactive ..... run img-optimize in interactive mode
+       -q, --quiet ..... run image optimization quietly
  Other options :
        -h, --help, help ... displays this help information
-Example:
+Examples:
   optimize all jpg images in /var/www/images
     img-optimize --jpg /var/www/images
 ```
@@ -78,15 +95,9 @@ To update the script, just run :
 git -C $HOME/.img-optimize pull
 ```
 
-If you previously used the 2nd install method, you have to copy the script again to update it
-
-```bash
-sudo cp $HOME/.img-optimize/optimize.sh /usr/local/bin/img-optimize -f
-```
-
 ## Setup daily cronjob
 
-You copy the scripts to /etc/cron.daily :
+You just have to copy the scripts to /etc/cron.daily :
 
 ```bash
 cp $HOME/.img-optimize/crons/jpg-png-cron.sh /etc/cron.daily/jpg-png-cron
