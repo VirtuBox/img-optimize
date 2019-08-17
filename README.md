@@ -33,7 +33,7 @@ For Debian/Ubuntu (available in scripts folder) :
 curl -sL git.io/fjddn | sudo -E bash
 
 # libwebp
-curl -sL git.io/fjd0v | sudo -E bash
+curl -sL git.io/fjdd6 | sudo -E bash
 ```
 
 --------------------------------------------------------------------------------
