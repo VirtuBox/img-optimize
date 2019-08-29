@@ -193,10 +193,10 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
         find . -type f -iname "*.png" -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt -quiet "{}" -o "{}.webp"; }'
+            bash -c "[ ! -f '{}.webp' ] && { cwebp -z 9 -mt $WEBP_ARGS '{}' -o '{}.webp'; }"
     else
         find . -type f -iname "*.png" -print0 | xargs -0 -r -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -z 9 -mt -quiet "{}" -o "{}.webp"; }'
+            bash -c "[ ! -f '{}.webp' ] && { cwebp -z 9 -mt $WEBP_ARGS '{}' -o '{}.webp'; }"
     fi
     echo -ne "       png to webp conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -206,10 +206,10 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp'; }"
     else
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -r -I {} \
-            bash -c '[ ! -f "{}.webp" ] && { cwebp -quiet -q 82 -mt "{}" -o "{}.webp"; }'
+            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp'; }"
     fi
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
