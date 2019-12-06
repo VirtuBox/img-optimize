@@ -24,7 +24,8 @@ curl -sL "$OPTIPNGLATEST" | tar -I pigz -xf -
 cd optipng-* || exit 1
 
 # configure and compile optipng
-./configure --prefix=/usr
+./configure
 make -j "$(nproc)"
 strip --strip-unneeded /usr/local/src/optipng-*/src/optipng/optipng
 make install
+ldconfig
