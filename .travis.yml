@@ -1,7 +1,7 @@
-sudo: required
+os: linux
 dist: bionic
 
-language: bash
+language: shell
 
 cache:
   apt: true
@@ -10,6 +10,7 @@ git:
   quiet: true
 
 before_script:
+  - sudo apt-get install tree -y
   - sudo apt-get -qq autoremove --purge
 addons:
   apt:
@@ -17,8 +18,8 @@ addons:
 
 script:
   - sudo apt-get install jpegoptim -y
-  - sudo bash scripts/install-webp.sh
-  - sudo bash scripts/install-optipng.sh
+  - sudo -E time bash scripts/install-webp.sh > /dev/null 2>&1
+  - sudo -E time bash scripts/install-optipng.sh > /dev/null 2>&1
   - sudo cp optimize.sh /usr/local/bin/img-optimize
   - sudo chmod 755 /usr/local/bin/img-optimize
   - /usr/local/bin/img-optimize --all
@@ -26,5 +27,6 @@ script:
   - /usr/local/bin/img-optimize --png -q
   - rm images/*.webp
   - /usr/local/bin/img-optimize --webp
+  - tree -L 2 .
   - rm images/*.webp
   - /usr/local/bin/img-optimize --webp --quiet
