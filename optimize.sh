@@ -106,7 +106,7 @@ fi
 ##################################
 # Prevent multi execution on same directory
 ##################################
-lock=$(echo -n "$IMG_PATH" | md5sum)
+lock=$(echo -n "$IMG_PATH" | md5sum| cut -d" " -f1)
 
 if [ -f "/tmp/$lock" ]; then
     echo "$IMG_PATH yet in progress"
