@@ -104,6 +104,18 @@ else
 fi
 
 ##################################
+# Prevent multi execution on same directory
+##################################
+lock=$(echo -n "$IMG_PATH" | md5sum)
+
+if [ -f "/tmp/$lock" ]; then
+    echo "$IMG_PATH yet in progress"
+    exit 1
+else
+    touch "/tmp/$lock"
+fi
+
+##################################
 # Welcome
 ##################################
 
@@ -220,3 +232,6 @@ fi
 echo ""
 echo -e "       ${CGREEN}Image optimization performed successfully !${CEND}"
 echo ""
+
+# Free ressource
+rm "/tmp/$lock"
