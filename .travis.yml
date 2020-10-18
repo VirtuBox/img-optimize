@@ -20,6 +20,8 @@ script:
   - sudo apt-get install jpegoptim -y
   - sudo -E time bash scripts/install-webp.sh > /dev/null 2>&1
   - sudo -E time bash scripts/install-optipng.sh > /dev/null 2>&1
+  - sudo wget -qO /usr/local/bin/avif https://github.com/Kagami/go-avif/releases/download/v0.1.0/avif-linux-x64
+  - sudo chmod +x /usr/local/bin/avif
   - sudo cp optimize.sh /usr/local/bin/img-optimize
   - sudo chmod 755 /usr/local/bin/img-optimize
   - /usr/local/bin/img-optimize --all
