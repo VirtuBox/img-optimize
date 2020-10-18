@@ -24,7 +24,9 @@ script:
   - sudo chmod +x /usr/local/bin/avif
   - sudo cp optimize.sh /usr/local/bin/img-optimize
   - sudo chmod 755 /usr/local/bin/img-optimize
-  - /usr/local/bin/img-optimize --all
+  - ls -alh images/
+  - /usr/local/bin/img-optimize --all -q
+  - ls -alh images/
   - /usr/local/bin/img-optimize -jpg -q
   - /usr/local/bin/img-optimize --png -q
   - rm images/*.webp
