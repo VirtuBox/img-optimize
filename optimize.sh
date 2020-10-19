@@ -148,7 +148,7 @@ if [ "$INTERACTIVE_MODE" = "1" ]; then
         echo ""
         echo ""
     fi
-        if [ -z "$AVIF_OPTIMIZATION" ]; then
+    if [ -z "$AVIF_OPTIMIZATION" ]; then
         echo ""
         echo "Do you want to convert all jpg & png images to WebP in $IMG_PATH ? (y/n)"
         while [[ $AVIF_OPTIMIZATION != "y" && $AVIF_OPTIMIZATION != "n" ]]; do
@@ -240,10 +240,10 @@ if [ "$AVIF_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
         find . -type f -iname "*.png" -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif'; }"
+            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; }"
     else
         find . -type f -iname "*.png" -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif'; }"
+            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; }"
     fi
     echo -ne "       png to avif conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
@@ -253,10 +253,10 @@ if [ "$AVIF_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif'; }"
+            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; } "
     else
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif'; }"
+            bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; }"
     fi
 
     echo -ne "       jpg to avif conversion                [${CGREEN}OK${CEND}]\\r"
