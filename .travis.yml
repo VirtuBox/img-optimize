@@ -27,7 +27,7 @@ script:
   - ls -alh images/
   - /usr/local/bin/img-optimize --all -q
   - ls -alh images/
-  - /usr/local/bin/img-optimize -jpg -q
+  - /usr/local/bin/img-optimize --jpg -q
   - /usr/local/bin/img-optimize --png -q
   - rm images/*.webp
   - /usr/local/bin/img-optimize --webp
