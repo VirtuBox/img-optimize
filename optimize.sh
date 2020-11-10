@@ -71,6 +71,7 @@ else
         --next)
             AVIF_OPTIMIZATION="y"
             WEBP_OPTIMIZATION="y"
+            ;;
         --webp)
             WEBP_OPTIMIZATION="y"
             ;;
