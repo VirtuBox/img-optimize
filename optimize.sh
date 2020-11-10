@@ -7,7 +7,7 @@
 # Author:        VirtuBox
 # License:       M.I.T
 # ----------------------------------------------------------------------------
-# Version 1.2 - 2020-10-18
+# Version 2.0 - 2020-11-10
 # ----------------------------------------------------------------------------
 
 CSI='\033['
@@ -28,8 +28,9 @@ _help() {
     echo "       --png ..... optimize all png images"
     echo "       --webp ..... convert all images in webp"
     echo "       --avif ..... convert all images in avif"
-    echo "       --nowebp ..... optimize all png & jpg images"
-    echo "       --all ..... optimize all images (png + jpg + webp +avif)"
+    echo "       --std ..... optimize all png & jpg images"
+    echo "       --next ..... convert all images in webp & avif"
+    echo "       --all ..... optimize all images (png + jpg + webp + avif)"
     echo "       -i, --interactive ..... run img-optimize in interactive mode"
     echo "       -q, --quiet ..... run image optimization quietly"
     echo "       --path <images path> ..... define images path"
@@ -61,11 +62,15 @@ else
         --png)
             PNG_OPTIMIZATION="y"
             ;;
-        --nowebp)
+        --std)
             JPG_OPTIMIZATION="y"
             PNG_OPTIMIZATION="y"
             WEBP_OPTIMIZATION="n"
+            AVIF_OPTIMIZATION="n"
             ;;
+        --next)
+            AVIF_OPTIMIZATION="y"
+            WEBP_OPTIMIZATION="y"
         --webp)
             WEBP_OPTIMIZATION="y"
             ;;
@@ -173,9 +178,9 @@ if [ "$JPG_OPTIMIZATION" = "y" ]; then
     echo -ne '       jpg optimization                      [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
-        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" -p -s --all-progressive -m82
     else
-        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" --preserve --strip-all -m82
+        find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -r -0 jpegoptim "$JPG_ARGS" -p -s -m82 --all-progressive
     fi
 
     echo -ne "       jpg optimization                      [${CGREEN}OK${CEND}]\\r"
@@ -221,10 +226,10 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp'; }"
+            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp || rm -f '{}.webp''; }"
     else
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -r -I {} \
-            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp'; }"
+            bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp' || rm -f '{}.webp'; }"
     fi
 
     echo -ne "       jpg to webp conversion                [${CGREEN}OK${CEND}]\\r"
@@ -235,7 +240,7 @@ if [ "$AVIF_OPTIMIZATION" = "y" ]; then
         echo "Error: avif isn't installed"
         exit 1
     }
-    # convert png to webp
+    # convert png to avif
     echo -ne '       png to avif conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then
@@ -248,7 +253,7 @@ if [ "$AVIF_OPTIMIZATION" = "y" ]; then
     echo -ne "       png to avif conversion                [${CGREEN}OK${CEND}]\\r"
     echo -ne '\n'
 
-    # convert jpg to webp
+    # convert jpg to avif
     echo -ne '       jpg to avif conversion                [..]\r'
     cd "$IMG_PATH" || exit 1
     if [ -n "$FIND_ARGS" ]; then

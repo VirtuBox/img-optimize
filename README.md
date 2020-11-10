@@ -9,6 +9,7 @@
 - jpegoptim for jpg optimization
 - optipng for png optimization
 - cwebp for WebP conversion
+- go-avif for Avif conversion
 
 ### From APT repositories
 
@@ -34,6 +35,13 @@ curl -sL git.io/fjddn | sudo -E bash
 
 # libwebp
 curl -sL git.io/fjdd6 | sudo -E bash
+```
+
+### Go-Avif installation
+
+```bash
+sudo wget -qO /usr/local/bin/avif https://github.com/Kagami/go-avif/releases/download/v0.1.0/avif-linux-x64
+sudo chmod +x /usr/local/bin/avif
 ```
 
 --------------------------------------------------------------------------------
@@ -87,7 +95,7 @@ Examples:
     img-optimize --jpg /var/www/images
 ```
 
-## Update the script
+### Update the script
 
 To update the script, just run :
 
@@ -95,7 +103,7 @@ To update the script, just run :
 git -C $HOME/.img-optimize pull
 ```
 
-## Setup daily cronjob
+### Setup daily cronjob
 
 You just have to copy the scripts to /etc/cron.daily :
 
