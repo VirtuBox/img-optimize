@@ -24,7 +24,8 @@ curl -sL "https:$LATEST_WEBP" | tar -I pigz -xf -
 cd libwebp-* || exit
 
 # configure libwebp and launch compilation
-./configure --prefix=/usr
+./configure
 make -j "$(nproc)"
 strip --strip-unneeded /usr/local/src/libwebp-*/examples/.libs/{cwebp,dwebp}
 make install
+ldconfig
