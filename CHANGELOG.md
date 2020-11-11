@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - option --no-run-if-empty added to xargs
 - scripts to compile optipng & libwebp from source
 - Avif (AV1 Image Format) support
+- Avoid optimizing the same image at the same moment [PR #12](https://github.com/VirtuBox/img-optimize/pull/12)
 
 ### Changed
 

@@ -81,18 +81,23 @@ Bash script to optimize your images and convert them in WebP
 Usage: img-optimize [options] <images path>
 If images path isn't defined, img-optimize will use the current directory
   Options:
-       --jpg <images path> ..... optimize all jpg images
-       --png <images path> ..... optimize all png images
-       --webp <images path> ..... convert all images in webp
-       --nowebp <images path> ..... optimize all png & jpg images
-       --all <images path> ..... optimize all images (png + jpg + webp)
+       --jpg ..... optimize all jpg images
+       --png ..... optimize all png images
+       --webp ..... convert all images in webp
+       --avif ..... convert all images in avif
+       --std ..... optimize all png & jpg images
+       --next ..... convert all images in webp & avif
+       --all ..... optimize all images (png + jpg + webp + avif)
        -i, --interactive ..... run img-optimize in interactive mode
        -q, --quiet ..... run image optimization quietly
+       --path <images path> ..... define images path
  Other options :
        -h, --help, help ... displays this help information
+       --cmin [+|-]<n> ... File's status was last changed n minutes ago.
+         act find cmin argument (+n : greater than n, -n : less than n, n : exactly n)
 Examples:
   optimize all jpg images in /var/www/images
-    img-optimize --jpg /var/www/images
+    img-optimize --jpg --path /var/www/images
 ```
 
 ### Update the script
