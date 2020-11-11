@@ -29,8 +29,6 @@ jobs:
       - name: Install prerequesites
         run: |
           sudo apt-get update
-          sudo apt-get install tree -y
-          sudo apt-get -qq autoremove --purge
           sudo apt-get install jpegoptim -y
           sudo -E time bash scripts/install-webp.sh > /dev/null 2>&1
           sudo -E time bash scripts/install-optipng.sh > /dev/null 2>&1
@@ -42,12 +40,10 @@ jobs:
       - name: Optimize Images
         run:  |
           ls -alh images/
-          /usr/local/bin/img-optimize --all -q
+          /usr/local/bin/img-optimize --avif
           ls -alh images/
-          /usr/local/bin/img-optimize --jpg -q
-          /usr/local/bin/img-optimize --png -q
-          rm images/*.webp
           /usr/local/bin/img-optimize --webp
-          tree -L 2 .
-          rm images/*.webp
-          /usr/local/bin/img-optimize --webp --quiet
+          ls -alh images/
+          rm -f images/*.webp images/*.avif
+          /usr/local/bin/img-optimize --all
+          ls -alh images/
