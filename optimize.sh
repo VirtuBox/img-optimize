@@ -186,6 +186,8 @@ fi
 if [ "$JPG_OPTIMIZATION" = "y" ]; then
     [ -z "$(command -v jpegoptim)" ] && {
         echo "Error: jpegoptim isn't installed"
+        # Free ressource
+        rm "/tmp/$lock"
         exit 1
     }
     echo -ne '       jpg optimization                      [..]\r'
@@ -202,12 +204,14 @@ fi
 if [ "$PNG_OPTIMIZATION" = "y" ]; then
     [ -z "$(command -v optipng)" ] && {
         echo "Error: optipng isn't installed"
+        # Free ressource
+        rm "/tmp/$lock"
         exit 1
     }
     # optimize png
 
     echo -ne '       png optimization                      [..]\r'
-    cd "$IMG_PATH" || exit 1
+    cd "$IMG_PATH" || (rm "/tmp/$lock" && exit 1)
     if [ -n "$FIND_ARGS" ]; then
         find . -type f -iname '*.png' -cmin "$FIND_ARGS" -print0 | xargs -r -0 optipng "$PNG_ARGS" -o5 -strip all
     else
@@ -219,11 +223,13 @@ fi
 if [ "$WEBP_OPTIMIZATION" = "y" ]; then
     [ -z "$(command -v cwebp)" ] && {
         echo "Error: cwebp isn't installed"
+        # Free ressource
+        rm "/tmp/$lock"
         exit 1
     }
     # convert png to webp
     echo -ne '       png to webp conversion                [..]\r'
-    cd "$IMG_PATH" || exit 1
+    cd "$IMG_PATH" || (rm "/tmp/$lock" && exit 1)
     if [ -n "$FIND_ARGS" ]; then
         find . -type f -iname "*.png" -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
             bash -c "[ ! -f '{}.webp' ] && { cwebp -z 9 -mt $WEBP_ARGS '{}' -o '{}.webp'; }"
@@ -236,7 +242,7 @@ if [ "$WEBP_OPTIMIZATION" = "y" ]; then
 
     # convert jpg to webp
     echo -ne '       jpg to webp conversion                [..]\r'
-    cd "$IMG_PATH" || exit 1
+    cd "$IMG_PATH" || (rm "/tmp/$lock" && exit 1)
     if [ -n "$FIND_ARGS" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
             bash -c "[ ! -f '{}.webp' ] && { cwebp $WEBP_ARGS -q 82 -mt '{}' -o '{}.webp || rm -f '{}.webp''; }"
@@ -251,11 +257,13 @@ fi
 if [ "$AVIF_OPTIMIZATION" = "y" ]; then
     [ -z "$(command -v avif)" ] && {
         echo "Error: avif isn't installed"
+        # Free ressource
+        rm "/tmp/$lock"
         exit 1
     }
     # convert png to avif
     echo -ne '       png to avif conversion                [..]\r'
-    cd "$IMG_PATH" || exit 1
+    cd "$IMG_PATH" || (rm "/tmp/$lock" && exit 1)
     if [ -n "$FIND_ARGS" ]; then
         find . -type f -iname "*.png" -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
             bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; }"
@@ -268,7 +276,7 @@ if [ "$AVIF_OPTIMIZATION" = "y" ]; then
 
     # convert jpg to avif
     echo -ne '       jpg to avif conversion                [..]\r'
-    cd "$IMG_PATH" || exit 1
+    cd "$IMG_PATH" || (rm "/tmp/$lock" && exit 1)
     if [ -n "$FIND_ARGS" ]; then
         find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -cmin "$FIND_ARGS" -print0 | xargs -0 -r -I {} \
             bash -c "[ ! -f '{}.avif' ] && { avif -e '{}' -o '{}.avif' || rm -f '{}.avif'; } "
