@@ -168,7 +168,7 @@ if [ "$INTERACTIVE_MODE" = "1" ]; then
     fi
     if [ -z "$AVIF_OPTIMIZATION" ]; then
         echo ""
-        echo "Do you want to convert all jpg & png images to WebP in $IMG_PATH ? (y/n)"
+        echo "Do you want to convert all jpg & png images to AVIF in $IMG_PATH ? (y/n)"
         while [[ $AVIF_OPTIMIZATION != "y" && $AVIF_OPTIMIZATION != "n" ]]; do
             echo "Select an option [y/n]: "
             read -r AVIF_OPTIMIZATION
